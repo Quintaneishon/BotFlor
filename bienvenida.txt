@@ -1,0 +1,10 @@
+Hola, soy un bot que ayuda a la maestra Flor.
+Fuí creado en el curso de Introducción a Python,
+Yo te puedo ayudar a saber la calificación de alguna actividad en Microsoft Teams.
+Solo tienes que mandarme un mensaje de la siguiente forma:
+
+Nombres ApellidoMaterno ApellidoPaterno Materia
+
+Ejemplo:
+
+Juan Carlos Perez Prado Geografía I
