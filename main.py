@@ -3,7 +3,7 @@ import datetime
 import Operations as op
 from Alumno import Alumno
 
-API_TOKEN = '1577711933:AAG6LHZB6ryjZne5krMIYIe3Rt4w4r9GBmE'
+API_TOKEN = ''
 bot = telebot.TeleBot(API_TOKEN)
 print("""
                     ___                         ___                         ___           ___     
