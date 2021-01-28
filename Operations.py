@@ -22,7 +22,7 @@ def regresa_archivo(materia):
     archivos = [f for f in listdir('Recursos') if isfile(join('Recursos', f))]
     return next((file for file in archivos if materia in strip_accents(file)), None)
 
-def isNaN(num):
+def is_nan(num):
     return num != num
 
 def bitacora_alumno(archivo, nombre):
@@ -35,24 +35,18 @@ def bitacora_alumno(archivo, nombre):
     if len(alumnos) > 1:
         nombres = nombre[:-2]
         alumnos = [llave for llave in alumnos if dic['First Name'] == nombres]
-    alumno = Alumno()
-    aux = 0
-    tarea = dict()
-    for idx,key in enumerate(dic.keys()):
-        if idx == 0:
-            alumno.nombre = dic[key][alumnos[0]]
-        elif idx == 1:
-            alumno.nombre += f" {dic[key][alumnos[0]]}"
-        elif idx > 2:
-            if aux == 0: 
-                tarea.update({"nombre":key})
-                aux = 1
-            elif aux == 1:
-                tarea.update({"puntos":dic[key][alumnos[0]]})
-                aux = 2
-            elif aux == 2:
-                tarea.update({"retro":"" if isNaN(dic[key][alumnos[0]]) else dic[key][alumnos[0]]})
-                alumno.tareas.append(tarea.copy()) 
-                tarea.clear()
-                aux = 0
+    alumno = Alumno(alumnos[0])
+    alumno.nombre = f"{dic['First Name'][alumno.llave]} {dic['Last Name'][alumno.llave]}"
+    llaves = list(dic.keys())
+    ranking = dict()
+    for i in range (3, len(llaves[2:]), 3):
+        alumno.tareas.append(dict({"nombre":llaves[i], "puntos":f"{'0' if is_nan(dic[llaves[i]][alumno.llave]) else str(dic[llaves[i]][alumnos[0]])}/{str(dic[llaves[i+1]][alumnos[0]])}", "retro": "" if is_nan(dic[llaves[i+2]][alumnos[0]]) else dic[llaves[i+2]][alumnos[0]]}))
+        alumno.total += dic[llaves[i+1]][alumnos[0]]
+        for n in dic[llaves[i]]:
+            puntaje = 0 if is_nan(dic[llaves[i]][n]) else dic[llaves[i]][n]
+            if n in ranking:
+                ranking[n] += puntaje
+            else:
+                ranking[n] = puntaje
+    alumno.get_ranking(ranking)
     return alumno

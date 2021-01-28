@@ -1,8 +1,9 @@
 import telebot
+import datetime
 import Operations as op
 from Alumno import Alumno
 
-API_TOKEN = ''
+API_TOKEN = '1577711933:AAG6LHZB6ryjZne5krMIYIe3Rt4w4r9GBmE'
 bot = telebot.TeleBot(API_TOKEN)
 print("""
                     ___                         ___                         ___           ___     
@@ -51,13 +52,14 @@ def echo_message(message):
                     bot.send_sticker(message.chat.id, gif)
             else:
                 try:
-                    bot.send_message(message.chat.id, f"___{alumno.nombre}___\n\n```{alumno.get_table()}```",parse_mode="MARKDOWN")
+                    bot.send_message(message.chat.id, f"```{alumno.get_table()}```",parse_mode="MARKDOWN")
                 except telebot.apihelper.ApiTelegramException as ex:
                     if ex.error_code == 400:
                         with open('temp.html', 'w', encoding="UTF-8") as f:
                             f.write(f"{alumno.nombre}\n\n{alumno.get_html()}")
                         with open('temp.html', 'rb') as f:
-                            bot.send_document(message.chat.id, f) 
+                            bot.send_document(message.chat.id, f)
+                bot.send_message(message.chat.id, f"___{alumno.nombre} - {materia.upper()}___ [👨🏼‍🎓]\n\nTienes {alumno.promedio} [📝]\n\nDado tu puntaje eres el numero {alumno.ranking} [🌟]",parse_mode="MARKDOWN")
                 with open('log.txt', 'a', encoding="UTF-8") as f:
-                    f.write(f"{message.from_user.username} | {alumno.nombre} | {materia}")
+                    f.write(f"{message.from_user.username} | {alumno.nombre} | {materia} | {datetime.datetime.now()}\n")
 bot.polling()
